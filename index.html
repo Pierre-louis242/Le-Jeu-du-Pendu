@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script type="text/javascript" src= main.js></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script type="text/javascript" src= main.js></script>
     <title>Document</title>
     <style>
         body{
@@ -22,20 +22,42 @@
 
         .check{
             width: 50%;
-            height: 100vh;
+            height: 50vh;
             background: green;
             padding: 25px;
             float: right;
             box-sizing: border-box;
         }
+
+        .memory{
+            width: 50%;
+            height: 50vh;
+            background: orange;
+            padding: 25px;
+            float: right;
+            box-sizing: border-box;    
+        }
+
+        .error{
+            color: red;
+        }
     </style>
 </head>
 <body>
+    <form class="formulaire">
+        <label for="proposition">Sauras-tu deviner la bonne lettre?</label>
+        <input type="text" name="proposition">
+        <button id="buttonPropo">Proposer</button>
+    </form>
+
+    
     <div class="result">
-        in porgress
-    </div>  
-    <div class="check">
-        0
-    </div>  
+        À toi de jouer!
+    </div>
+    <div class="error"></div>  
+    <div class="check"></div>
+    <div class="memory"></div>
+        
+     
 </body>
 </html>
