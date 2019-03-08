@@ -1,6 +1,6 @@
 window.onload = () => {
     var check = 0
-    let tableMots = 'CHENILLE PAMPERS ASTICOTS GOURDE BABYFOOT KICKER LASAGNES CHAT MAISON HAMBURGER ELEPHANT TOURNEVIS CHAUVE MBOTTA REACTNATIVE JAVASCRIPT FOURCHETTE ECUREUIL POLYESTER BOUTEILLE PERIPATETICIENNE CLOWN PIGEON PALMIER ORDINATEUR PHALANGES CRUSTACES FUNEMBULE PEDONCULE  LIPIZZAN FRANCS FRANGE FRAPES FRAUDE FREAKS FREMIR FREONS FRITTE ABBAYE ABIMER ABOLIR ABOYER ESPION ETOILE EPOXYS EXODES EGAYER DURION DRUIDE DROGUE DOUALA DOUANE DORMIR DONJON DEALER DALLAS DEVISE CRYPTE CRIMES CRAYON COURGE CRAMPE CRANER CODAGE COLITE';
+    let tableMots = 'CHENILLE PAMPERS ASTICOTS GOURDE BABYFOOT KICKER LASAGNES CHAT MAISON HAMBURGER ELEPHANT TOURNEVIS CHAUVE MBOTTA REACTNATIVE JAVASCRIPT FOURCHETTE ECUREUIL POLYESTER BOUTEILLE PERIPATETICIENNE CLOWN PIGEON PALMIER ORDINATEUR PHALANGES CRUSTACES FUNEMBULE PEDONCULE LIPIZZAN FRANCS FRANGE FRAUDE FREAKS FREMIR FREONS FRITTE ABBAYE ABIMER ABOLIR ABOYER ESPION ETOILE EPOXYS EXODES EGAYER DURION DRUIDE DROGUE DOUALA DOUANE DORMIR DONJON DEALER DALLAS DEVISE CRYPTE CRIMES CRAYON COURGE CRAMPE CRANER CODAGE COLITE   ';
     
     let tableLettres = tableMots.split(' ');
     
@@ -15,9 +15,9 @@ window.onload = () => {
 
     for (let w = 0 ; w < reponse.length; w++){
         reponse[w] = "_" 
-        console.log(reponse[w]);
+        let reponseReponse = reponse.join(' ')
+        affichage(reponseReponse, '.result')
     }
-    console.log(reponse);
 
     let memoire = [];
     
@@ -41,9 +41,15 @@ window.onload = () => {
         var voirLettre = e.target.proposition.value.toUpperCase();
         let penduString = pendu.join('');
         
-        if(check > 9){
+        if(check >= 9){
             let perduPerdu = 'Tu as perdu! Pendu ;-) Le mot était ' + penduString;
-            affichage(perduPerdu, '.result');  
+            affichage(perduPerdu, '.result'); 
+            check = check + 1 
+            affichage(check, '.check');
+            var sound = new Audio("sounds/laught3.wav"); // buffers automatically when created
+            sound.play();
+            let desactivatedInput = document.querySelector("form")
+            desactivatedInput.parentNode.removeChild(desactivatedInput);
         }else{
             let guessLetter = function (l){
                 let bonneReponse = false;
@@ -55,15 +61,15 @@ window.onload = () => {
                 }
                 return bonneReponse
             }
+
             var memoMemo = false;
             for (let j in memoire) {
-                console.log('state', memoire[j] != voirLettre)
                 if (memoire[j] == voirLettre){
                     memoMemo = true;
                 }
             }
+
             if (!memoMemo){
-                console.log("lettre", voirLettre)
                 memoire.push(voirLettre);
             }else{
                 error('La lettre y est déjà', '.error')
@@ -82,17 +88,93 @@ window.onload = () => {
             let l = voirLettre;  
             let bonneOuMauvaise = guessLetter(l.toUpperCase()); 
             if(verifTable(pendu, reponse)){
+                let desactivatedForm = document.querySelector("form")
+                desactivatedForm.parentNode.removeChild(desactivatedForm)
+                var snd = new Audio("sounds/applause.wav"); // buffers automatically when created
+                snd.play();
                 let motSoluce = penduString + '! Tu as gagné';
                 affichage(motSoluce, '.result') 
             }else{
-                if(!bonneOuMauvaise){
+                if(!bonneOuMauvaise & !memoMemo){
                     check ++
                 }
                 let resultatResultat = reponse.join(" ");
                 affichage(resultatResultat, '.result');
             }
             affichage(check, '.check');
-            e.target.proposition.value = "";
+            e.target.proposition.value = ""; 
+        }
+
+    // Drawing the Hanged
+
+        var c = document.getElementById("canvasBonhomme");
+        var ctx = c.getContext("2d");
+        ctx.lineWidth = 10;
+        ctx.moveTo(0, 150);
+        ctx.lineTo(20, 150);
+        ctx.stroke();
+        ctx.strokeStyle = "white";
+        if (check > 0){
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, 150);
+            ctx.stroke();
+        } 
+        if (check > 1){
+            ctx.moveTo(0, 0);
+            ctx.lineTo(100, 0);
+            ctx.stroke();
+            ctx.strokeStyle = "white";
+        }
+        if (check > 2){ 
+            ctx.moveTo(0, 30);
+            ctx.lineTo(50, 0);
+            ctx.stroke();
+            ctx.strokeStyle = "white";
+        }
+        if (check > 3){
+            ctx.moveTo(80, 0);
+            ctx.lineTo(80, 30);
+            ctx.stroke(); 
+            ctx.strokeStyle = "white";
+        }
+        
+        // Drawing the Hanged Guy
+    
+        var X = c.width / 3.7;
+        var Y = c.height / 3.9;
+        var R = 10;
+        
+        if (check > 4){
+            ctx.beginPath();
+            ctx.arc(X, Y, R, 0, 2 * Math.PI, false);
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = '#FF0000';
+            ctx.stroke();
+        }
+        if (check > 5){
+            ctx.moveTo(80, 50);
+            ctx.lineTo(80, 100);
+            ctx.stroke(); 
+        }
+        if (check > 6){
+            ctx.moveTo(80, 60);
+            ctx.lineTo(100, 80);
+            ctx.stroke(); 
+        }
+        if (check > 7){
+            ctx.moveTo(80, 60);
+            ctx.lineTo(60, 80);
+            ctx.stroke();
+        }
+        if (check > 8){
+            ctx.moveTo(80, 100);
+            ctx.lineTo(100, 120);
+            ctx.stroke();
+        }
+        if (check > 9){
+            ctx.moveTo(80, 100);
+            ctx.lineTo(60, 120);
+            ctx.stroke();
         }
     }
 }
